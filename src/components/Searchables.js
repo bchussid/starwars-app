@@ -18,11 +18,6 @@ function Searchables() {
   const [results] = useResultsList(topic);
   const [url, setUrl] = useState("");
 
-  //todo figure out how to render list of results from topic selected - reference poke app for 'next'/'prev' capabilities
-  //todo render either new page or modal (make results clickable) to bring up each specific item's attributes
-  //todo look into 'resultsList.map is not a function & key prop errors
-  //todo user should just search by movie?
-
   return (
     <div>
       <label htmlFor="topic">
