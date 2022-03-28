@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Header() {
+function Nav() {
   return (
     // nav wrapper
     <nav className="md:bg-yellow-300 px-2 sm:px-4 py-3">
@@ -81,4 +81,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default Nav;

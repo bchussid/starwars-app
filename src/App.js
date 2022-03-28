@@ -1,7 +1,8 @@
+import React from "react";
 import "./style.css";
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Header from "./components/Header";
+import Nav from "./components/Nav";
 import Films from "./components/Films";
 import People from "./components/People";
 import Planets from "./components/Planets";
@@ -69,7 +70,7 @@ function App() {
   return (
     <div>
       <Router>
-        <Header />
+        <Nav />
         {loading ? (
           "Loading..."
         ) : (

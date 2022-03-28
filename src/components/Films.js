@@ -11,6 +11,7 @@ function Films({ json }) {
         //----------------------------beginning of mapped results from API-----------------------------//
         // "container div"
         <div
+          data-testid="films-list"
           className="block flex-auto mx-auto p-6 mb-10 max-w-2xl bg-gray-200 rounded-lg border border-gray-200 shadow-md"
           key={films.title}
         >
