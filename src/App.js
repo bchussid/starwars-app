@@ -21,9 +21,6 @@ function App() {
   // handle loading state
   const [loading, setLoading] = useState(true);
 
-  //* note to self... for future addition:
-  //* for pagination use setLinks in 'fetch' fxns below, pass to components below as props
-  // const [links, setLinks] = useState({ next: null, prev: null})
 
   //--------------------------- fetching functions start ------------------------//
   useEffect(() => {
