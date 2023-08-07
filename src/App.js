@@ -11,7 +11,7 @@ import Starships from "./components/Starships";
 import Vehicles from "./components/Vehicles";
 import Home from "./components/Home";
 
-function App() {
+export default function App() {
   const [films, setFilms] = useState([]);
   const [people, setPeople] = useState([]);
   const [planets, setPlanets] = useState([]);
@@ -24,37 +24,31 @@ function App() {
 
   //--------------------------- fetching functions start ------------------------//
   useEffect(() => {
-    async function fetchFilms() {
-      const res = await fetch(`https://swapi.dev/api/films`);
+    async function fetchData(endPoint, setData) {
+      const res = await fetch(`https://swapi.dev/api/${endPoint}`);
       const json = await res.json();
-      setFilms(json.results);
+      setData(json.results)
+    }
+
+    async function fetchFilms() {
+      await fetchData('films', setFilms)
     }
     async function fetchPeople() {
-      const res = await fetch(`https://swapi.dev/api/people`);
-      const json = await res.json();
-      setPeople(json.results);
+      await fetchData('people', setPeople)
     }
     async function fetchPlanets() {
-      const res = await fetch(`https://swapi.dev/api/planets`);
-      const json = await res.json();
-      setPlanets(json.results);
+      await fetchData('planets', setPlanets)
     }
     async function fetchSpecies() {
-      const res = await fetch(`https://swapi.dev/api/species`);
-      const json = await res.json();
-      setSpecies(json.results);
+      await fetchData('species', setSpecies)
     }
     async function fetchStarships() {
-      const res = await fetch(`https://swapi.dev/api/starships`);
-      const json = await res.json();
-      setStarships(json.results);
+      await fetchData('starships', setStarships)
     }
     async function fetchVehicles() {
-      const res = await fetch(`https://swapi.dev/api/vehicles`);
-      const json = await res.json();
-      setVehicles(json.results);
+      await fetchData('vehicles', setVehicles)
     }
-    //--------------------------- fetching functions end ------------------------//
+
     fetchFilms();
     fetchPeople();
     fetchPlanets();
@@ -86,4 +80,3 @@ function App() {
   );
 }
 
-export default App;
