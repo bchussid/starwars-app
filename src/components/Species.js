@@ -1,13 +1,13 @@
 import React from "react";
 
-function Species({ json }) {
+function Species({ species }) {
   return (
     <div>
       {/* page title */}
       <h2 className="font-extrabold text-4xl text-center text-cyan-400 mt-20 mb-24">
         Species
       </h2>
-      {json.map((species) => (
+      {species.map((species) => (
         //----------------------------beginning of mapped results from API-----------------------------//
         // "container div"
         <div

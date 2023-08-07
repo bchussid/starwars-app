@@ -67,12 +67,12 @@ export default function App() {
         ) : (
           <Routes>
             <Route exact path="/" element={<Home />} />
-            <Route path="/films" element={<Films json={films} />} />
-            <Route path="/people" element={<People json={people} />} />
-            <Route path="/planets" element={<Planets json={planets} />} />
-            <Route path="/species" element={<Species json={species} />} />
-            <Route path="/starships" element={<Starships json={starships} />} />
-            <Route path="/vehicles" element={<Vehicles json={vehicles} />} />
+            <Route path="/films" element={<Films films={films} />} />
+            <Route path="/people" element={<People people={people} />} />
+            <Route path="/planets" element={<Planets planets={planets} />} />
+            <Route path="/species" element={<Species species={species} />} />
+            <Route path="/starships" element={<Starships starships={starships} />} />
+            <Route path="/vehicles" element={<Vehicles vehicles={vehicles} />} />
           </Routes>
         )}
       </Router>
