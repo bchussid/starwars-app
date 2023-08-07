@@ -10,6 +10,7 @@ import Species from "./components/Species";
 import Starships from "./components/Starships";
 import Vehicles from "./components/Vehicles";
 import Home from "./components/Home";
+import axios from "axios";
 
 export default function App() {
   const [films, setFilms] = useState([]);
@@ -25,9 +26,12 @@ export default function App() {
   //--------------------------- fetching functions start ------------------------//
   useEffect(() => {
     async function fetchData(endPoint, setData) {
-      const res = await fetch(`https://swapi.dev/api/${endPoint}`);
-      const json = await res.json();
-      setData(json.results)
+      try {
+        const res = await axios.get(`https://swapi.dev/api/${endPoint}`)
+        setData(res.data.results)
+      } catch (err) {
+        console.error('Fetching error: ', err)
+      }
     }
 
     async function fetchFilms() {
