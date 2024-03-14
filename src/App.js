@@ -36,21 +36,27 @@ export default function App() {
 
     async function fetchFilms() {
       await fetchData('films', setFilms)
+      console.log('loaded films')
     }
     async function fetchPeople() {
       await fetchData('people', setPeople)
+      console.log('loaded people')
     }
     async function fetchPlanets() {
       await fetchData('planets', setPlanets)
+      console.log('loaded planets')
     }
     async function fetchSpecies() {
       await fetchData('species', setSpecies)
+      console.log('loaded species')
     }
     async function fetchStarships() {
       await fetchData('starships', setStarships)
+      console.log('loaded starships')
     }
     async function fetchVehicles() {
       await fetchData('vehicles', setVehicles)
+      console.log('loaded vehicles')
     }
 
     fetchFilms();
@@ -61,6 +67,26 @@ export default function App() {
     fetchVehicles();
     setLoading(false);
   }, []);
+
+  /*
+    I'm using the console.logs above to log when the data from each function has loaded.
+    I'm using the `useEffect` below to console.log the `loading` state any time it changes.
+
+    As you can see in the console/network calls, `loading` flips back to `false` long before
+    the data from these functions is loaded in, thus making this `loading` state useless.
+
+    CHALLENGE: Please refactor the `useEffect` above to make sure that all the data from these
+    functions is actually loaded BEFORE `loading` gets set to `false`.
+
+    There are multiple correct ways of doing this.
+    Please try to find the optimal solution and explain why you chose it.
+    May the force be with you!
+  */
+
+  
+  useEffect(() => {
+    console.log('loading', loading)
+  }, [loading])
 
   return (
     <div>
