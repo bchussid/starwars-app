@@ -22,50 +22,59 @@ export default function App() {
   // handle loading state
   const [loading, setLoading] = useState(true);
 
-
   //--------------------------- fetching functions start ------------------------//
+
   useEffect(() => {
-    async function fetchData(endPoint, setData) {
+    console.log("loading", loading);
+  }, [loading]);
+
+  useEffect(() => {
+    async function fetchData(endPoint) {
       try {
-        const res = await axios.get(`https://swapi.dev/api/${endPoint}`)
-        setData(res.data.results)
+        const res = await axios.get(`https://swapi.dev/api/${endPoint}`);
+        return res.data.results;
       } catch (err) {
-        console.error('Fetching error: ', err)
+        console.error("Fetching error: ", err);
+        return [];
       }
     }
+    function fetchAllData() {
+      const films = fetchData("films");
+      console.log("films fetched");
+      const people = fetchData("people");
+      console.log("people fetched");
+      const planets = fetchData("planets");
+      console.log("planets fetched");
+      const species = fetchData("species");
+      console.log("species fetched");
+      const starships = fetchData("starships");
+      console.log("starships fetched");
+      const vehicles = fetchData("vehicles");
+      console.log("vehicles fetched");
 
-    async function fetchFilms() {
-      await fetchData('films', setFilms)
-      console.log('loaded films')
-    }
-    async function fetchPeople() {
-      await fetchData('people', setPeople)
-      console.log('loaded people')
-    }
-    async function fetchPlanets() {
-      await fetchData('planets', setPlanets)
-      console.log('loaded planets')
-    }
-    async function fetchSpecies() {
-      await fetchData('species', setSpecies)
-      console.log('loaded species')
-    }
-    async function fetchStarships() {
-      await fetchData('starships', setStarships)
-      console.log('loaded starships')
-    }
-    async function fetchVehicles() {
-      await fetchData('vehicles', setVehicles)
-      console.log('loaded vehicles')
+      Promise.all([films, people, planets, species, starships, vehicles])
+        .then(
+          ([
+            filmsData,
+            peopleData,
+            planetsData,
+            speciesData,
+            starshipsData,
+            vehiclesData,
+          ]) => {
+            setFilms(filmsData);
+            setPeople(peopleData);
+            setPlanets(planetsData);
+            setSpecies(speciesData);
+            setStarships(starshipsData);
+            setVehicles(vehiclesData);
+            setLoading(false);
+          }
+        )
+        .catch((err) => console.error("Error fetching all data: ", err));
     }
 
-    fetchFilms();
-    fetchPeople();
-    fetchPlanets();
-    fetchSpecies();
-    fetchStarships();
-    fetchVehicles();
-    setLoading(false);
+    fetchAllData();
   }, []);
 
   /*
@@ -83,11 +92,6 @@ export default function App() {
     May the force be with you!
   */
 
-  
-  useEffect(() => {
-    console.log('loading', loading)
-  }, [loading])
-
   return (
     <div>
       <Router>
@@ -101,12 +105,17 @@ export default function App() {
             <Route path="/people" element={<People people={people} />} />
             <Route path="/planets" element={<Planets planets={planets} />} />
             <Route path="/species" element={<Species species={species} />} />
-            <Route path="/starships" element={<Starships starships={starships} />} />
-            <Route path="/vehicles" element={<Vehicles vehicles={vehicles} />} />
+            <Route
+              path="/starships"
+              element={<Starships starships={starships} />}
+            />
+            <Route
+              path="/vehicles"
+              element={<Vehicles vehicles={vehicles} />}
+            />
           </Routes>
         )}
       </Router>
     </div>
   );
 }
-
