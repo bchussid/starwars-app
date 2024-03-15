@@ -29,55 +29,44 @@ export default function App() {
   }, [loading]);
 
   useEffect(() => {
-    async function fetchData(endPoint) {
+    async function fetchData(endPoint, setData) {
       try {
         const res = await axios.get(`https://swapi.dev/api/${endPoint}`);
-        return res.data.results;
+        setData(res.data.results);
       } catch (err) {
         console.error("Fetching error: ", err);
-        return [];
       }
     }
-    function fetchAllData() {
-      const films = fetchData("films");
-      console.log("films fetched");
-      const people = fetchData("people");
-      console.log("people fetched");
-      const planets = fetchData("planets");
-      console.log("planets fetched");
-      const species = fetchData("species");
-      console.log("species fetched");
-      const starships = fetchData("starships");
-      console.log("starships fetched");
-      const vehicles = fetchData("vehicles");
-      console.log("vehicles fetched");
 
-      Promise.all([films, people, planets, species, starships, vehicles])
-        .then(
-          ([
-            filmsData,
-            peopleData,
-            planetsData,
-            speciesData,
-            starshipsData,
-            vehiclesData,
-          ]) => {
-            setFilms(filmsData);
-            setPeople(peopleData);
-            setPlanets(planetsData);
-            setSpecies(speciesData);
-            setStarships(starshipsData);
-            setVehicles(vehiclesData);
-            setLoading(false);
-          }
-        )
-        .catch((err) => console.error("Error fetching all data: ", err));
+    async function fetchAllData() {
+      try {
+        await Promise.all([
+          fetchData("films", setFilms),
+          // console.log("films fetched"),
+          fetchData("people", setPeople),
+          // console.log("people fetched"),
+          fetchData("planets", setPlanets),
+          // console.log("planets fetched"),
+          fetchData("species", setSpecies),
+          // console.log("species fetched"),
+          fetchData("starships", setStarships),
+          // console.log("starships fetched"),
+          fetchData("vehicles", setVehicles),
+          // console.log("vehicles fetched"),
+        ]);
+        console.log("all data fetched");
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+        setLoading(false);
+      }
     }
 
     fetchAllData();
   }, []);
 
   /*
+  Challenge...
     I'm using the console.logs above to log when the data from each function has loaded.
     I'm using the `useEffect` below to console.log the `loading` state any time it changes.
 
@@ -91,6 +80,23 @@ export default function App() {
     Please try to find the optimal solution and explain why you chose it.
     May the force be with you!
   */
+
+  /*
+  Solution...
+    The first thing that I noticed was that the fetching functions were being run sequentially, awaiting the previous one to finish before starting the next one. And great call-out about the loading state.
+    
+    Assuming we want to keep with the same general approach of fetching all data up front (and of course implementing the loading state in the right way), doing so in the way above using Promise.all() would be a far more optimal solution. This way the data is fetched concurrently (in parallel) instead of sequentially. Load time is reduced, and the loading state is acting as expected (see console and I'll attach screenshots in a follow-up email).
+
+    Another benefit of doing it this way, is that if one of the api routes is down (which can be tested by introducing a typo to one of the individual fetchData calls) the rest of the data will still be fetched. 
+
+    And either way, the Promise.all() method is awaited, ensuring that loading will be set to `false` only after all the data is fetched. I left plenty of console.logs in there to help see this (something I would never do in production code of course).
+
+
+    I also want to address that while this is still perfectly fine for this app, but for a medium/large API I would explore even more optimal solutions like fetching/loading data in as needed. I implement a strategy like this in my 'restaurant picker' app by making use of a dropdown menu and a custom hook (called 'usePlaceList'). I can see about implementing a similar strategy here but I think you'll be able to see what I mean by looking at that code.
+
+    And may the force be with you as well...
+
+    */
 
   return (
     <div>
